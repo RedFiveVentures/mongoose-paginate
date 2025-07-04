@@ -1,0 +1,40 @@
+{
+  "name": "@r5v/mongoose-paginate",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "prebuild": "rimraf dist/",
+    "build": "tsc && npm run copy-files",
+    "copy-files": "copyfiles --error package.json dist/",
+    "test": "concurrently --kill-others-on-fail --prefix none npm:test:*",
+    "test:unit": "jest"
+  },
+  "engines": {
+    "mongoose": ">=8.16.0",
+    "node": ">=23"
+  },
+  "dependencies": {
+    "mongoose": "^8.16.1",
+    "qs": "^6.14.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "A lightweight Node.js package that seamlessly bridges RESTful API query parameters to Mongoose operations. Automatically parses and transforms URL query strings into valid Mongoose queries, supporting filtering, sorting, pagination, field selection, and population. Simply pass your Express req.query object and get back a fully configured Mongoose query ready for execution. Perfect for rapidly building consistent, feature-rich APIs without repetitive query parsing logic",
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.0.10",
+    "concurrently": "^9.2.0",
+    "copyfiles": "^2.4.1",
+    "jest": "^30.0.4",
+    "mockingoose": "^2.16.2",
+    "node-mocks-http": "^1.17.2",
+    "rimraf": "^6.0.1",
+    "ts-jest": "^29.4.0",
+    "ts-node-dev": "^2.0.0",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
+  }
+}

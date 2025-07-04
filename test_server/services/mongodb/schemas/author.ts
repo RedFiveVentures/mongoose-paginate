@@ -22,16 +22,11 @@ const authorSchema = new Schema<any>({
         lowercase: true,
         trim: true
     },
-    c: {
 
-        child: {
-            str: {type: String, selected: false},
-            grandchild:a}},
     biography: {
         type: String,
         select: false,
         maxlength: 2000,
-
     },
     birthDate: {
         type: Date
@@ -72,12 +67,7 @@ const authorSchema = new Schema<any>({
 authorSchema.virtual('fullName').get(function() {
     return `${this.firstName} ${this.lastName}`;
 });
-authorSchema.virtual('obj').get(function() {
-    return {
-        a: "1",
-        b:"2"
-    }
-})
+
 authorSchema.virtual('moreBooks', {ref: 'Book', foreignField: '_id',localField: 'books'})
 
 // Index for searching authors

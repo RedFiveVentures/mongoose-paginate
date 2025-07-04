@@ -11,12 +11,13 @@ export const parseSortString = (sortString: string) => {
             if (k && !v) {
                 return [k.trim(), 1]
             }
-            let _order = ""
+            let _order;
             if(isNaN(Number(v))) {
                 _order = v.trim()
             } else {
-                _order = v
+                _order = Number(v)
             }
+
             const order  = [-1,1,'asc','desc'].includes(_order) ? _order : 1
             return [
                 k.trim(),
@@ -24,4 +25,13 @@ export const parseSortString = (sortString: string) => {
             ]
         })
         .filter((v) => v !== null)
+}
+
+export const parseAggregateSortString = (sortString):{[key:string]:SortOrder}=>{
+    const sortObj = parseSortString(sortString)
+    return sortObj.reduce((a, c) => {
+        const [k, v] = c
+        a[k] = v
+        return a
+    }, {} as any)
 }

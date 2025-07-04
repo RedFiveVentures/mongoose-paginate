@@ -2,9 +2,10 @@ import express, {ErrorRequestHandler, RequestHandler} from "express";
 import {ErrorHandler} from "./utils/errorRequestHandler";
 import dotenv from 'dotenv'
 import {mongooseClient} from "./services/mongodb/mongo";
-import {Author, Book, Publisher} from "./services/mongodb/schemas";
-import {PagingQuery} from "../../src"
-import {AggregationPagingQuery} from "../../src/aggregationPagingQuery";
+import {appRouter} from "./router/appRouter";
+
+
+
 
 dotenv.config()
 
@@ -14,37 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 //app.use(express.static("public"));
 
-app.get("/authors", async (req, res, next)=>{
-    try {
-        const query = new PagingQuery(req, Author,{
-            staticFilter:{"isActive":true}
-            //single: true
-        })
-
-        const authors = await query.exec()
-        res.send(authors)
-    } catch(err) {
-        return next(err)
-    }
-})
-app.get("/books",async (req, res)=>{
-    const query = new PagingQuery(req, Book, {})
-    const books = await query.exec()
-    res.send(books)
-})
-app.get("/publishers",async (req, res)=>{
-    const query =   new AggregationPagingQuery(req, Publisher,{
-        pipeline: [
-            {$match: {isActive: true}}
-        ],
-        allowDiskUse: false,
-        disableFilter: false,
-        disablePostFilter: false
-    } )
-    const results = await query.exec()
-
-    res.send(results)
-})
+app.use(appRouter)
 
 const initDatabase = async()=>{
     try {
