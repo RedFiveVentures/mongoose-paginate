@@ -37,12 +37,13 @@ export interface AggregateQueryParsedRequestParams extends StandardParsedRequest
 }
 interface StandardQueryOptions extends QueryOptions {
     disablePaging?: boolean,
-    single?: boolean,
+
     disableFilter?: boolean
 }
 
 export interface PagingQueryOptions extends StandardQueryOptions {
     staticFilter?: { [key: string]: any }
+    single?: boolean,
 
 
 }
