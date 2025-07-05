@@ -1,11 +1,8 @@
 import mongoose, {Model, Schema} from 'mongoose';
-import {IAuthor} from "./types";
+import type {IAuthor} from "./types";
 
-const a = new Schema({
-    test: {type: String, select: false},
-})
 // Author Schema
-const authorSchema = new Schema<any>({
+const authorSchema = new Schema<IAuthor>({
     firstName: {
         type: String,
         required: true,
@@ -49,10 +46,6 @@ const authorSchema = new Schema<any>({
         type: Schema.Types.ObjectId,
         ref: 'Book'
     }],
-    book: {
-        type: Schema.Types.ObjectId,
-        ref: 'Book'
-    },
     isActive: {
         type: Boolean,
         default: true
