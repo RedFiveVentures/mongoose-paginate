@@ -1,8 +1,8 @@
 {
   "name": "@r5v/mongoose-paginate",
   "version": "1.0.0",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {
     "prebuild": "rimraf dist/",
     "build": "tsc && npm run copy-files",

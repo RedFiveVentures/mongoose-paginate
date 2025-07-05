@@ -33,8 +33,8 @@ export class PagingQuery {
     private isJsonString = isJsonString
     private initQuery = () => {
         const {$filter, $sort, $select, $skip, $limit, $populate, $lean} = this.params
-        const {single, staticFilter, disablePaging, disableFilter, ...options} = this.options
-        const filter = disableFilter ? {...staticFilter} : {...$filter, ...staticFilter}
+        const {single, staticFilter, disablePaging, enableFilter, ...options} = this.options
+        const filter = enableFilter ? {...staticFilter} : {...$filter, ...staticFilter}
 
         this.query = single ? this.model.findOne(filter) : this.model.find(filter)
         this.query.setOptions(options)

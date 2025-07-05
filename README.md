@@ -86,15 +86,16 @@ PagingQuery(Express.Request, mongoose.Model, options )
 
 #### Options
 
-| Key               | Value                | Description                                                                                                                                                              | Class Availability                  | Required | Default  |
-|:------------------|:---------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:------------------------------------|:---------|:---------|
-| disablePaging     | boolean              | disables paging and $paging param use                                                                                                                                    | PagingQuery, AggregationPagingQuery |          | false    |
-| disableFilter     | boolean              | disables the $filter param on req.                                                                                                                                       | PagingQuery, AggregationPagingQuery |          | true     |
-| single            | boolean              | disables paging on the query. converts from .find query to .findOne()                                                                                                    | PagingQuery, AggregationPagingQuery |          | true     |
-| disablePostFilter | boolean              | disables the ability to create a dynamic filter per request                                                                                                              | AggregationPagingQuery              |          | false    |
-| staticPostFilter  | Mongo Filter Object  | create a filter on the pipeline that is added after all the pipeline stages. this cannot be overwritten by params                                                        | AggregationPagingQuery              |          | {}       |
-| staticFilter      | Mongo Filter Object  | create a filter on the pipeline that is added before all the pipeline stages. on find requests, this is added to the filter object. this cannot be overwritten by params | AggregationPagingQuery              |          | {}       |
-| pipeline          | MongoPipelineStage[] | pipeline request object. if the first item in pipeline stage is a $match or another required first stage operator. it will be placed before all other modifiers          | AggregationPagingQuery              | true     | []       |
+| Key              | Value                | Description                                                                                                                                                              | Class Availability                  | Required | Default |
+|:-----------------|:---------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:------------------------------------|:---------|:--------|
+| disablePaging    | boolean              | disables paging and $paging param use                                                                                                                                    | PagingQuery, AggregationPagingQuery |          | false   |
+| enableFilter     | boolean              | disables the $filter param on req.                                                                                                                                       | PagingQuery, AggregationPagingQuery |          | false   |
+| single           | boolean              | disables paging on the query. converts from .find query to .findOne()                                                                                                    | PagingQuery, AggregationPagingQuery |          | true    |
+| enablePostFilter | boolean              | disables the ability to create a dynamic filter per request                                                                                                              | AggregationPagingQuery              |          | false   |
+| staticPostFilter | Mongo Filter Object  | create a filter on the pipeline that is added after all the pipeline stages. this cannot be overwritten by params                                                        | AggregationPagingQuery              |          | {}      |
+| staticFilter     | Mongo Filter Object  | create a filter on the pipeline that is added before all the pipeline stages. on find requests, this is added to the filter object. this cannot be overwritten by params | AggregationPagingQuery              |          | {}      |
+| pipeline         | MongoPipelineStage[] | pipeline request object. if the first item in pipeline stage is a $match or another required first stage operator. it will be placed before all other modifiers          | AggregationPagingQuery              | true     | []      |
+| removeProtected  | boolean              | auto remove protected (select: false) for root Model                                                                                                                     | AggregationPagingQuery              |          | false   |
 
 ## Build
 
@@ -113,3 +114,13 @@ $ yarn run start
 ```
 
 
+#### Aggregations Order of operations
+
+1. staticFilter \| \$filter \| $match (if first item in pipeline)
+2. \$preSort
+3. apply pipeline
+4. \$select \| project
+5. remove protected fields
+6. \$count
+7. \$sort
+8. apply options

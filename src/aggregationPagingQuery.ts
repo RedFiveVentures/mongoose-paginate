@@ -1,4 +1,11 @@
-import {Model, QueryWithHelpers, Aggregate, Types, isObjectIdOrHexString, Connection, AggregateOptions} from "mongoose";
+import {
+    Model,
+    Aggregate,
+    Types,
+    isObjectIdOrHexString,
+    AggregateOptions,
+    PipelineStage
+} from "mongoose";
 import type {Request} from "express";
 import type {AggregateQueryOptions, ExpressQuery, AggregateQueryParsedRequestParams} from './index.d'
 
@@ -25,8 +32,9 @@ export class AggregationPagingQuery  {
     }
     options: AggregateQueryOptions = {
         removeProtected: true,
-        disableFilter: true,
-        disablePostFilter: true,
+        enableFilter: false,
+        enablePostFilter:false,
+        enablePreSort: true,
         pipeline: []
     }
     query: Aggregate<Array<any>> | undefined
@@ -56,41 +64,57 @@ export class AggregationPagingQuery  {
     }
     initQuery = async () => {
         const { $filter,  $sort, $preSort, $select, $count, $postFilter} = this.params
-        const {disableFilter, disablePostFilter, staticFilter, staticPostFilter, addFields, removeProtected, pipeline, ...options} = this.options
+        const {
+            enableFilter,
+            enablePreSort,
+            enablePostFilter,
+            staticFilter,
+            staticPostFilter,
+            removeProtected,
+            pipeline,
+            ...options} = this.options
         this.query = this.model.aggregate()
-        const filterObj = disableFilter ? {...staticFilter} : {...$filter, ...staticFilter}
-        const postFilterObj = disablePostFilter ? {...staticPostFilter} : {...$postFilter, ...staticPostFilter}
+        const [p1,...pipes] = pipeline
+        const filterObj = {$and:[{...staticFilter}]}
+        const postFilterObj = {$and:[{...staticPostFilter}]}
+        let firstObj = false
+        if(enableFilter) {filterObj.$and.push({...$filter})}
+        if(p1 && (p1 as PipelineStage.Match).$match) {
+            filterObj.$and.push({...(p1 as PipelineStage.Match).$match})
+            firstObj = true
+        }
+        if(enablePostFilter) {postFilterObj.$and.push({...$postFilter})}
+
         const typeCastFilter = this.typeCastObject(filterObj)
         const typeCastPostFilter = this.typeCastObject(postFilterObj)
-
+        if(Object.keys(p1).some(k=>["$search","$searchMeta", "$geoNear" ].includes(k))) {
+            this.query.append(p1)
+            firstObj = true
+        }
         if (Object.keys(typeCastFilter).length !== 0) {
             this.query.match(typeCastFilter)
         }
-        if (Object.keys($preSort).length) {
+        if (this.options.enablePresort && Object.keys($preSort).length) {
             this.query.sort($preSort)
         }
-        pipeline.forEach(item => this.query?.append(item))
+        if(!firstObj) {this.query.append(p1)}
+        pipes.forEach(item => this.query?.append(item))
 
-        if(addFields){
-            this.query.addFields(addFields)
-        }
         if ($select) {
             this.query.project($select as any)
         }
         if (removeProtected) {
             this.removeProtectedFields()
         }
-        if($count) {
+        if($count.length) {
             this.createCounts()
         }
-        if(Object.keys(typeCastPostFilter).length !== 0){
+        if(Object.keys($postFilter).length !== 0){
             this.query.match(typeCastPostFilter)
         }
-
         if (Object.keys($sort).length) {
             this.query.sort($sort as Record<string, -1 | 1 | any>)
         }
-
         this.query.option({allowDiskUse: true, ...options as AggregateOptions})
     }
     typeCastObject = (strOrObj: any): any => {

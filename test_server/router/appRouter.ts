@@ -23,7 +23,7 @@ appRouter.get("/paging/authors",async (req,res)=>{
 });
 
 appRouter.get("/aggregate/books",async (req,res)=>{
-    const query = new AggregationPagingQuery(req, Author , {
+    const query = new AggregationPagingQuery(req, Book , {
         pipeline: [
             {$match: {pages: {$gte:300}}}
         ]
@@ -41,11 +41,13 @@ appRouter.get("/aggregate/publishers",async (req,res)=>{
     res.send(results)
 });
 appRouter.get("/aggregate/authors",async (req,res)=>{
-    const query = new AggregationPagingQuery(req, Book , {
+    const query = new AggregationPagingQuery(req, Author , {
         pipeline: [
             {$match: {nationality : "British"}}
-        ]
+        ],
+        removeProtected: false
     })
+    console.log(JSON.stringify(query.query))
     const results = await query.exec()
     res.send(results)
 });

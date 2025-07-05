@@ -1,3 +1,5 @@
+import dotenv from 'dotenv'
+dotenv.config()
 import {IAuthor, IAuthorDocument, IBook, IBookDocument, IBookPopulated, IPublisherDocument} from "../schemas/types";
 
 const mongoose = require('mongoose');

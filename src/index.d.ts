@@ -37,7 +37,6 @@ export interface AggregateQueryParsedRequestParams extends StandardParsedRequest
 }
 interface StandardQueryOptions extends QueryOptions {
     disablePaging?: boolean,
-
     disableFilter?: boolean
 }
 
@@ -50,6 +49,8 @@ export interface PagingQueryOptions extends StandardQueryOptions {
 export interface AggregateQueryOptions extends StandardQueryOptions, AggregateOptions {
     aggSchema?: AggregationSchema,
     disablePostFilter?: boolean,
+    disablePreSort?: boolean,
     staticPostFilter?: { [key:string]: any }
     pipeline: mongoose.PipelineStage[]
+    removeProtected: boolean
 }
