@@ -9,4 +9,5 @@ module.exports = {
   transform: {
     ...tsJestTransformCfg,
   },
+  moduleFileExtensions: ["ts", "tsx", 'js'],
 };

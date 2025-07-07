@@ -11,7 +11,7 @@
     "test:unit": "jest"
   },
   "engines": {
-    "node": ">=23"
+    "node": ">=20"
   },
   "dependencies": {
     "mongoose": "^8.16.1",
