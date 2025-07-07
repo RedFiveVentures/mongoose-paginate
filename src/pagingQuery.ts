@@ -39,7 +39,7 @@ export class PagingQuery {
         this.query = single ? this.model.findOne(filter) : this.model.find(filter)
         this.query.setOptions(options)
 
-        if (disablePaging) {
+        if (disablePaging || single) {
             this.params.$paging = false
         }
 
