@@ -106,7 +106,7 @@ $ yarn
 $ yarn run build
 $ cd test_server
 $ yarn
-$ yarn add ../dist #adds the package to the local server
+$ yarn add ../ #adds the package to the local server
 $ echo MONGODB_URI=http://localhost:27017/bookstore >> .env
 $ yarn run seed 
   ### load seed data into bookstore database

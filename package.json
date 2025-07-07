@@ -1,15 +1,39 @@
 {
   "name": "@r5v/mongoose-paginate",
   "version": "1.0.0",
-  "main": "index.js",
-  "types": "index.d.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "prebuild": "rimraf dist/",
-    "build": "tsc && npm run copy-files",
+    "build": "tsc",
     "copy-files": "copyfiles --error package.json dist/",
     "test": "concurrently --kill-others-on-fail --prefix none npm:test:*",
     "test:unit": "jest"
   },
+  "keywords": [
+    "mongoose",
+    "paging",
+    "mongodb"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/RedFiveVentures/mongoose-paginate",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RedFiveVentures/mongoose-paginate"
+  },
+  "bugs": {
+    "url": "https://github.com/RedFiveVentures/mongoose-paginate/issues"
+  },
+  "author": {
+    "name": "Noah Wallace",
+    "email": "noah@redfiveventures.com",
+    "url": "https://www.npmjs.com/~nwrfv"
+  },
+  "files": [
+    "package.json",
+    "./dist",
+    "README.md"
+  ],
   "engines": {
     "node": ">=20"
   },
@@ -17,9 +41,6 @@
     "mongoose": "^8.16.1",
     "qs": "^6.14.0"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "description": "A lightweight Node.js package that seamlessly bridges RESTful API query parameters to Mongoose operations. Automatically parses and transforms URL query strings into valid Mongoose queries, supporting filtering, sorting, pagination, field selection, and population. Simply pass your Express req.query object and get back a fully configured Mongoose query ready for execution. Perfect for rapidly building consistent, feature-rich APIs without repetitive query parsing logic",
   "devDependencies": {
     "@types/express": "^5.0.3",
