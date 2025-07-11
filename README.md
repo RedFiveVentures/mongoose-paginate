@@ -11,7 +11,7 @@ This project was designed to accomodate more than 80% of your ddaily workflow. t
 ### PagingQuery
 ```typescript
 // userController.ts
-import {PagingQuery} from '@r5v/@r5v/mongoose-paginate'
+import {PagingQuery} from '@r5v/mongoose-paginate'
 import {UserModel} from "./models"
 
 const getUsersController: RequestHandler = async (res, res) => {
@@ -38,7 +38,7 @@ const getUsersController: RequestHandler = async (res, res) => {
 ### AggregationPagingQuery
 ```typescript
 // userController.ts
-import {AggregationPagingQuery} from '@r5v/@r5v/mongoose-paginate'
+import {AggregationPagingQuery} from '@r5v/mongoose-paginate'
 import {UserModel} from "./models"
 
 const getUsersController: RequestHandler = async (res, res) => {
