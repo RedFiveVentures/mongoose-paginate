@@ -4,7 +4,7 @@
 
 Simple, Fast, Efficient
 
-This project was designed to accomodate more than 80% of your ddaily workflow. to remove the overhead of boilerplate code in handling each endpoint and keeping queries and query params simple. We didn't want you to have to learn a new language to use this product
+This project was designed to accomodate more than 80% of your daily workflow to remove the overhead of boilerplate code in handling each endpoint and keeping queries and query params simple. We didn't want you to have to learn a new language to use this product
 
 ## Basic Usage
 
