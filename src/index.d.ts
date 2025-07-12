@@ -52,5 +52,4 @@ export interface AggregateQueryOptions extends StandardQueryOptions, AggregateOp
     disablePreSort?: boolean,
     staticPostFilter?: { [key:string]: any }
     pipeline: mongoose.PipelineStage[]
-    removeProtected: boolean
 }

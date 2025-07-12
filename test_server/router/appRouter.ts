@@ -1,7 +1,7 @@
 import express from "express";
 import {PagingQuery} from "../../src/pagingQuery";
 import {Author, Book, Publisher} from "../services/mongodb/schemas";
-import {AggregationPagingQuery} from "@r5v/mongoose-paginate";
+import {AggregationPagingQuery} from "../../src/index";
 
 
 export const appRouter = express.Router();
@@ -45,7 +45,6 @@ appRouter.get("/aggregate/authors",async (req,res)=>{
         pipeline: [
             {$match: {nationality : "British"}}
         ],
-        removeProtected: false
     })
     console.log(JSON.stringify(query.query))
     const results = await query.exec()
