@@ -34,6 +34,12 @@
   dependencies:
     sparse-bitfield "^3.0.3"
 
+"@r5v/mongoose-paginate@../":
+  version "1.0.5"
+  dependencies:
+    mongoose "^8.16.1"
+    qs "^6.14.0"
+
 "@tsconfig/node10@^1.0.7":
   version "1.0.11"
   resolved "https://registry.yarnpkg.com/@tsconfig/node10/-/node10-1.0.11.tgz#6ee46400685f130e278128c7b38b7e031ff5b2f2"
@@ -615,6 +621,19 @@ mongoose@^8.16.0:
   version "8.16.0"
   resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-8.16.0.tgz#aef2f66def90abff8f8d3a0f9f91e52c1d480d03"
   integrity sha512-gLuAZsbwY0PHjrvfuXvUkUq9tXjyAjN3ioXph5Y6Seu7/Uo8xJaM+rrMbL/x34K4T3UTgtXRyfoq1YU16qKyIw==
+  dependencies:
+    bson "^6.10.4"
+    kareem "2.6.3"
+    mongodb "~6.17.0"
+    mpath "0.9.0"
+    mquery "5.0.0"
+    ms "2.1.3"
+    sift "17.1.3"
+
+mongoose@^8.16.1:
+  version "8.16.4"
+  resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-8.16.4.tgz#89ed4b3baab1972cc951cfc82a4f754f280a9433"
+  integrity sha512-jslgdQ8pY2vcNSKPv3Dbi5ogo/NT8zcvf6kPDyD8Sdsjsa1at3AFAF0F5PT+jySPGSPbvlNaQ49nT9h+Kx2UDA==
   dependencies:
     bson "^6.10.4"
     kareem "2.6.3"

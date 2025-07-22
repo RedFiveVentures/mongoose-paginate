@@ -22,7 +22,7 @@ export const parseParams = (defaultParams: PagingQueryParsedRequestParams | Aggr
             }
             if (k === "$paging") {
                 const str = (params[k] as string).toLowerCase()
-                parsedParams[k] = str === 'false' || str === 'no' || str == '0'
+                parsedParams[k] = !(str === 'false' || str === 'no' || str == '0')
             }
             if (k === "$sort" || k === "$preSort") {
                 parsedParams[k] = isAggregate ? parseAggregateSortString(params[k] as string) : parseSortString(params[k] as string)

@@ -96,7 +96,7 @@ export class AggregationPagingQuery  {
             this.query.sort($preSort)
         }
         if(!firstObj) {this.query.append(p1)}
-        pipes.forEach(item => this.query?.append(item))
+            pipes.forEach(item => this.query?.append(item))
 
         if ($select) {
             this.query.project($select as any)
