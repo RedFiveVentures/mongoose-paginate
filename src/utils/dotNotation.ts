@@ -149,3 +149,4 @@ export const setPropertiesFromDotNotationImmutable = (obj, dotNotationMap) => {
 
     return result;
 };
+export type setPropertiesFromDotNotationImmutable = typeof setPropertiesFromDotNotationImmutable;

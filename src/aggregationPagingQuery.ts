@@ -7,7 +7,7 @@ import {
     PipelineStage
 } from "mongoose";
 import type {Request} from "express";
-import type {AggregateQueryOptions, ExpressQuery, AggregateQueryParsedRequestParams} from './index.d'
+import type {AggregateQueryOptions, ExpressQuery, AggregateQueryParsedRequestParams} from './types'
 
 import {parseParams} from "./utils/parseParams";
 import {isJsonString} from "./utils/isJsonString";

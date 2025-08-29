@@ -1,8 +1,9 @@
 {
   "name": "@r5v/mongoose-paginate",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "type": "module",
   "scripts": {
     "prebuild": "rimraf dist/",
     "build": "tsc",

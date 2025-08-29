@@ -1,4 +1,4 @@
-import {AggregationSchema} from "./query";
+
 import mongoose, {QueryOptions, SortOrder, AggregateOptions} from "mongoose";
 import {ParsedQs} from "qs";
 
@@ -14,7 +14,7 @@ export interface ExpressQuery extends ParsedQs {
     $count: string;
 }
 
-interface StandardParsedRequestParams {
+export interface StandardParsedRequestParams {
     $filter?: { [key: string]: any }
     $limit: number
     $skip: number
@@ -35,7 +35,7 @@ export interface AggregateQueryParsedRequestParams extends StandardParsedRequest
     $count: string[]
     $postFilter: {[key:string]:any}
 }
-interface StandardQueryOptions extends QueryOptions {
+export interface StandardQueryOptions extends QueryOptions {
     disablePaging?: boolean,
     disableFilter?: boolean
 }
@@ -46,8 +46,8 @@ export interface PagingQueryOptions extends StandardQueryOptions {
 
 
 }
-export interface AggregateQueryOptions extends StandardQueryOptions, AggregateOptions {
-    aggSchema?: AggregationSchema,
+export interface AggregateQueryOptions extends StandardQueryOptions, Omit<AggregateOptions,'comment'> {
+
     disablePostFilter?: boolean,
     disablePreSort?: boolean,
     staticPostFilter?: { [key:string]: any }

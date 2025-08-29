@@ -1,4 +1,4 @@
-import type {PagingQueryParsedRequestParams, PagingQueryOptions} from './index.d'
+import type {PagingQueryParsedRequestParams, PagingQueryOptions} from './types'
 import { Model, QueryWithHelpers} from "mongoose";
 import type {Request} from 'express'
 import {parseSortString} from "./utils/parseSortString";

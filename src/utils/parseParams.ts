@@ -1,5 +1,8 @@
 import {ParsedQs} from "qs";
-import type {PagingQueryParsedRequestParams, AggregateQueryParsedRequestParams} from '../index.d'
+import type {
+    PagingQueryParsedRequestParams,
+    AggregateQueryParsedRequestParams
+} from '../types'
 import {parseAggregateSortString, parseSortString} from "./parseSortString";
 
 export const parseParams = (defaultParams: PagingQueryParsedRequestParams | AggregateQueryParsedRequestParams, params: ParsedQs, isAggregate = false): PagingQueryParsedRequestParams | AggregateQueryParsedRequestParams => {
