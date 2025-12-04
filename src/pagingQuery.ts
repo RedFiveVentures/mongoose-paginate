@@ -3,6 +3,7 @@ import { Model, QueryWithHelpers} from "mongoose";
 import type {Request} from 'express'
 import {parseSortString} from "./utils/parseSortString";
 import {parsePopulateArray} from "./utils/parsePopulateQuery";
+import {buildPopulate} from "./utils/buildPopulateFromString"
 import {parseParams} from "./utils/parseParams";
 
 import {isJsonString} from "./utils/isJsonString";
@@ -46,9 +47,9 @@ export class PagingQuery {
         if ($sort && $sort.length > 0) {
             this.query.sort($sort)
         }
+
         if ($populate) {
-            const selectArr = $select && $select.split(",").map((v) => v.trim()) || []
-            const popArr = parsePopulateArray($populate, selectArr)
+            const popArr = buildPopulate($populate.join(","))
             popArr.forEach(path => {
                 this.query!.populate(path)
             })
@@ -58,7 +59,7 @@ export class PagingQuery {
             if (!this.isJsonString($select)) {
                 selectStr = $select
                     .split(",")
-                    .filter(item => !($populate || []).some(p => item.trim().startsWith("p")))
+                    .filter(item => !($populate || []).some(p => item.trim().startsWith(p)))
                     .join(" ")
             }
             this.query!.select(selectStr)

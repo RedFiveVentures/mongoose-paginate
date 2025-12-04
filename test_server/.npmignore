@@ -1,6 +1,0 @@
-../.idea
-../.VS_code
-../.lock
-../test_server
-jest.config
-..src/tests

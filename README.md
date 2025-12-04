@@ -76,7 +76,7 @@ PagingQuery(Express.Request, mongoose.Model, options )
 | $limit      | number                                                                            | limit the number of returned objects                                                                                                                                                                           | PagingQuery, AggregationPagingQuery |
 | $skip       | number                                                                            | skip to the next object on the request                                                                                                                                                                         | PagingQuery, AggregationPagingQuery |
 | $paging     | 'false'\|0\|'no'                                                                  | turn off paging, on by default                                                                                                                                                                                 | PagingQuery, AggregationPagingQuery |
-| $populate   | comma separated dot notation string \n books,publishers                           | using refs and virtuals, a dot notation string will populate the model using .populate                                                                                                                         | PagingQuery                         |
+| $populate   | comma separated dot notation string \n books,publishers                           | using refs and virtuals, a dot notation string will populate the model using .populate. will deep populate and select using \"authors\[name\].books\[title\],publishers\[name\]" notation                      | PagingQuery                         |
 | $select     | comma separated dot notation string \n books,-_id \| -_id,-name,address.-address1 | using the select notation uses the mongoose name \| -name syntax to filter the output. use this in conjunction with the $populate query to filter keys \n ie books.title,books.publisher \| -name,books.-title | PagingQuery, AggregationPagingQuery |   
 | $lean       | no value needed, this will return a lean query result                             | returns a lean result. does not require a value                                                                                                                                                                | PagingQuery                         |   
 | $sort       | space separated mongoose sort string \n name -value                               | inserts sort into the query. In aggregation queries this will insert a sort after the existing pipeline                                                                                                        | PagingQuery, AggregationPagingQuery | 
@@ -128,3 +128,8 @@ $ yarn run start
 
 ## NOTES
 1. removeProtected removed from aggregation query due to inconsistent results after publication
+
+
+### 1.0.8
+
+Adds Deep Populate and Select Notation
