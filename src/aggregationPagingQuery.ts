@@ -7,7 +7,7 @@ import {
     PipelineStage
 } from "mongoose";
 import type {Request} from "express";
-import type {AggregateQueryOptions, ExpressQuery, AggregateQueryParsedRequestParams} from './types'
+import type {AggregateQueryOptions, QueryParameters, AggregateQueryParsedRequestParams} from './types'
 
 import {parseParams} from "./utils/parseParams";
 import {isJsonString} from "./utils/isJsonString";
@@ -39,7 +39,7 @@ export class AggregationPagingQuery  {
     query: Aggregate<Array<any>> | undefined
     protectedPaths: string[] = []
     model: Model<any>
-    constructor(req: Request<{},any, any, Partial<ExpressQuery>>, model: Model<any>, options: AggregateQueryOptions) {
+    constructor(req: Request<{},any, any, Partial<QueryParameters>>, model: Model<any>, options: AggregateQueryOptions) {
         this.options = {...this.options, ...options}
         this.model = model
         this.params = this.parseParams(this.params,req.query, true) as AggregateQueryParsedRequestParams

@@ -97,6 +97,11 @@ PagingQuery(Express.Request, mongoose.Model, options )
 | pipeline                    | MongoPipelineStage[] | pipeline request object. if the first item in pipeline stage is a $match or another required first stage operator. it will be placed before all other modifiers          | AggregationPagingQuery              | true     | []      |
 | removeProtected \(REMOVED\) | boolean              | auto remove protected (select: false) for root Model                                                                                                                     | AggregationPagingQuery              |          | false   |
 
+## Utilities
+|Name| Description                                                                                      |
+|:---|:-------------------------------------------------------------------------------------------------|
+|buildPopulate| creates a populate object from dot notation string "author\[name\].books,user.publisher\[name\]" |
+
 ## Build
 
 ```text
@@ -129,7 +134,12 @@ $ yarn run start
 ## NOTES
 1. removeProtected removed from aggregation query due to inconsistent results after publication
 
+### 1.0.11
+Fix Issue with Typescript build
+
+### 1.0.9
+Fix Issue with Typescript add buildPopulate Export
 
 ### 1.0.8
-
 Adds Deep Populate and Select Notation
+

@@ -2,7 +2,7 @@
 import mongoose, {QueryOptions, SortOrder, AggregateOptions} from "mongoose";
 import {ParsedQs} from "qs";
 
-export interface ExpressQuery extends ParsedQs {
+export interface QueryParameters extends ParsedQs {
     $filter: string;
     $limit: string;
     $skip: string;
