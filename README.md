@@ -89,8 +89,10 @@ PagingQuery(Express.Request, mongoose.Model, options )
 | Key                         | Value                | Description                                                                                                                                                              | Class Availability                  | Required | Default |
 |:----------------------------|:---------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:------------------------------------|:---------|:--------|
 | disablePaging               | boolean              | disables paging and $paging param use                                                                                                                                    | PagingQuery, AggregationPagingQuery |          | false   |
-| enableFilter                | boolean              | disables the $filter param on req.                                                                                                                                       | PagingQuery, AggregationPagingQuery |          | false   |
-| single                      | boolean              | disables paging on the query. converts from .find query to .findOne()                                                                                                    | PagingQuery, AggregationPagingQuery |          | true    |
+| disableFilter               | boolean              | disables the $filter param on req.                                                                                                                                       | PagingQuery                         |          | false   |
+| enableFilter                | boolean              | enables the $filter param on req.                                                                                                                                        | AggregationPagingQuery              |          | false   |
+| enablePreSort               | boolean              | enables the $preSort param on req.                                                                                                                                       | AggregationPagingQuery              |          | false   |
+| single                      | boolean              | disables paging on the query. converts from .find query to .findOne()                                                                                                    | PagingQuery                         |          | true    |
 | enablePostFilter            | boolean              | disables the ability to create a dynamic filter per request                                                                                                              | AggregationPagingQuery              |          | false   |
 | staticPostFilter            | Mongo Filter Object  | create a filter on the pipeline that is added after all the pipeline stages. this cannot be overwritten by params                                                        | AggregationPagingQuery              |          | {}      |
 | staticFilter                | Mongo Filter Object  | create a filter on the pipeline that is added before all the pipeline stages. on find requests, this is added to the filter object. this cannot be overwritten by params | AggregationPagingQuery              |          | {}      |
@@ -133,6 +135,11 @@ $ yarn run start
 
 ## NOTES
 1. removeProtected removed from aggregation query due to inconsistent results after publication
+
+### 1.0.12
+  - Fix issue with AggregationPagingQuery where static post filter would not be applied if $postFilter param was not supplied
+  - updated typings on AggregationPagingQuery to include enablePostFilter, enableFilter, and enablePreSort
+  - flipped PagingQuery back to `disableFilter` instead of `enableFilter` option \# this was set incorrectly in 1.0.11 but still defaults to false
 
 ### 1.0.11
 Fix Issue with Typescript build

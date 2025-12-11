@@ -92,7 +92,7 @@ export class AggregationPagingQuery  {
         if (Object.keys(typeCastFilter).length !== 0) {
             this.query.match(typeCastFilter)
         }
-        if (this.options.enablePresort && Object.keys($preSort).length) {
+        if (this.options.enablePreSort && Object.keys($preSort).length) {
             this.query.sort($preSort)
         }
         if(!firstObj) {this.query.append(p1)}
@@ -104,7 +104,7 @@ export class AggregationPagingQuery  {
         if($count.length) {
             this.createCounts()
         }
-        if(Object.keys($postFilter).length !== 0){
+        if((Object.keys($postFilter).length !== 0 && enablePostFilter) || staticPostFilter !== undefined){
             this.query.match(typeCastPostFilter)
         }
         if (Object.keys($sort).length) {
