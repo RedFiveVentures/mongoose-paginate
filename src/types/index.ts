@@ -43,11 +43,11 @@ export interface StandardQueryOptions extends QueryOptions {
 export interface PagingQueryOptions extends StandardQueryOptions {
     staticFilter?: { [key: string]: any }
     single?: boolean,
-
-
 }
-export interface AggregateQueryOptions extends StandardQueryOptions, Omit<AggregateOptions,'comment'> {
 
+export interface AggregateQueryOptions extends Omit<AggregateOptions,'comment'> {
+    enableFilter?: boolean,
+    disablePaging?: boolean,
     disablePostFilter?: boolean,
     disablePreSort?: boolean,
     staticPostFilter?: { [key:string]: any }

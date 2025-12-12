@@ -136,6 +136,9 @@ $ yarn run start
 ## NOTES
 1. removeProtected removed from aggregation query due to inconsistent results after publication
 
+### 1.0.13
+  - Fix issue where disablePaging was not working on aggregation query
+
 ### 1.0.12
   - Fix issue with AggregationPagingQuery where static post filter would not be applied if $postFilter param was not supplied
   - updated typings on AggregationPagingQuery to include enablePostFilter, enableFilter, and enablePreSort

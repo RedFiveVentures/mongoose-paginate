@@ -161,10 +161,10 @@ export class AggregationPagingQuery  {
     }
     exec = async () => {
         const { $skip, $limit, $paging, $filter } = this.params
-        const { staticFilter } = this.options
+        const { disablePaging } = this.options
         if(!this.query) {throw new Error("No Query Present in AggregationQuery")}
 
-        if (!$paging) {
+        if (!$paging || disablePaging) {
             this.query!.skip($skip)
             this.query!.limit($limit)
             return await this.query.exec()

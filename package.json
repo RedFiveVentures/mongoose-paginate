@@ -1,6 +1,6 @@
 {
   "name": "@r5v/mongoose-paginate",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "main": "./dist/index.js",
   "types": "./dist/types/index.d.ts",
   "scripts": {
