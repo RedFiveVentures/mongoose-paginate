@@ -139,7 +139,7 @@ GET /api/books?$lean=true
 | staticPostFilter            | Mongo Filter Object  | create a filter on the pipeline that is added after all the pipeline stages. this cannot be overwritten by params                                                        | AggregationPagingQuery              |          | {}      |
 | staticFilter                | Mongo Filter Object  | create a filter on the pipeline that is added before all the pipeline stages. on find requests, this is added to the filter object. this cannot be overwritten by params | AggregationPagingQuery              |          | {}      |
 | pipeline                    | MongoPipelineStage[] | pipeline request object. if the first item in pipeline stage is a $match or another required first stage operator. it will be placed before all other modifiers          | AggregationPagingQuery              | true     | []      |
-| removeProtected \(REMOVED\) | boolean              | auto remove protected (select: false) for root Model                                                                                                                     | AggregationPagingQuery              |          | false   |
+| removeProtected             | boolean              | auto remove protected fields (those with `select: false` in schema) from aggregation results. Prevents accidental exposure of sensitive data like passwords              | AggregationPagingQuery              |          | false   |
 
 ## Utilities
 
@@ -307,8 +307,9 @@ $ yarn run start
 9. Apply pagination (`$skip`, `$limit`) and options
 
 
-## NOTES
-1. removeProtected removed from aggregation query due to inconsistent results after publication
+### 1.0.15
+  - **Re-enabled `removeProtected` option** for `AggregationPagingQuery` - Automatically excludes fields marked with `select: false` in your schema (e.g., passwords, secret keys) from aggregation results
+  - Uses refactored `findProtectedPaths` utility which safely traverses schemas without JSON serialization
 
 ### 1.0.14
   - Added proper TypeScript package exports with subpaths (`/utils`, `/types`)

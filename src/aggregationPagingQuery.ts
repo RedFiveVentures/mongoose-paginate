@@ -30,8 +30,9 @@ export class AggregationPagingQuery  {
     }
     options: AggregateQueryOptions = {
         enableFilter: false,
-        enablePostFilter:false,
+        enablePostFilter: false,
         enablePreSort: true,
+        removeProtected: false,
         pipeline: []
     }
     query: Aggregate<unknown[]> | undefined
@@ -51,6 +52,9 @@ export class AggregationPagingQuery  {
         this.model = model
         this.params = this.parseParams(this.params, req.query as import('qs').ParsedQs, true) as AggregateQueryParsedRequestParams
 
+        if (this.options.removeProtected) {
+            this.protectedPaths = this.findProtectedPaths(model)
+        }
 
         this.initQuery()
     }
@@ -76,6 +80,7 @@ export class AggregationPagingQuery  {
             enablePostFilter,
             staticFilter,
             staticPostFilter,
+            removeProtected,
             pipeline,
             ...options} = this.options
         this.query = this.model.aggregate()
@@ -107,6 +112,9 @@ export class AggregationPagingQuery  {
 
         if ($select) {
             this.query.project($select as any)
+        }
+        if (removeProtected) {
+            this.removeProtectedFields()
         }
         if($count.length) {
             this.createCounts()

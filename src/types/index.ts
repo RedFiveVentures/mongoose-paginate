@@ -57,6 +57,10 @@ export interface AggregateQueryOptions extends Omit<AggregateOptions,'comment'> 
     disablePaging?: boolean,
     disablePostFilter?: boolean,
     disablePreSort?: boolean,
+    enablePostFilter?: boolean,
+    enablePreSort?: boolean,
+    staticFilter?: { [key: string]: any }
     staticPostFilter?: { [key:string]: any }
+    removeProtected?: boolean,
     pipeline: mongoose.PipelineStage[]
 }

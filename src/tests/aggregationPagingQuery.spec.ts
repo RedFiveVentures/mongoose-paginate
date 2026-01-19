@@ -16,6 +16,20 @@ const AggTestSchema = new Schema({
 
 const AggTestModel = mongoose.model('AggTestModel', AggTestSchema);
 
+// Create a test schema with protected fields
+const ProtectedSchema = new Schema({
+    username: { type: String, required: true },
+    email: { type: String },
+    password: { type: String, select: false },
+    secretKey: { type: String, select: false },
+    profile: {
+        name: { type: String },
+        ssn: { type: String, select: false }
+    }
+});
+
+const ProtectedModel = mongoose.model('ProtectedModel', ProtectedSchema);
+
 // Default pipeline with at least one stage to avoid undefined error
 const defaultPipeline = [{ $match: {} }];
 
@@ -389,6 +403,58 @@ describe('AggregationPagingQuery', () => {
             expect(() => {
                 new AggregationPagingQuery(req, AggTestModel, { pipeline: defaultPipeline });
             }).toThrow('Invalid JSON in $postFilter parameter');
+        });
+    });
+
+    describe('removeProtected', () => {
+        test('should find protected paths when removeProtected is enabled', () => {
+            const req = createRequest({ query: {} });
+            const apq = new AggregationPagingQuery(req, ProtectedModel, {
+                pipeline: defaultPipeline,
+                removeProtected: true
+            });
+
+            expect(apq.protectedPaths).toContain('password');
+            expect(apq.protectedPaths).toContain('secretKey');
+        });
+
+        test('should not find protected paths when removeProtected is disabled', () => {
+            const req = createRequest({ query: {} });
+            const apq = new AggregationPagingQuery(req, ProtectedModel, {
+                pipeline: defaultPipeline,
+                removeProtected: false
+            });
+
+            expect(apq.protectedPaths).toEqual([]);
+        });
+
+        test('should not find protected paths by default', () => {
+            const req = createRequest({ query: {} });
+            const apq = new AggregationPagingQuery(req, ProtectedModel, {
+                pipeline: defaultPipeline
+            });
+
+            expect(apq.protectedPaths).toEqual([]);
+        });
+
+        test('should set removeProtected option correctly', () => {
+            const req = createRequest({ query: {} });
+            const apq = new AggregationPagingQuery(req, ProtectedModel, {
+                pipeline: defaultPipeline,
+                removeProtected: true
+            });
+
+            expect(apq.options.removeProtected).toBe(true);
+        });
+
+        test('should have empty protected paths for model without protected fields', () => {
+            const req = createRequest({ query: {} });
+            const apq = new AggregationPagingQuery(req, AggTestModel, {
+                pipeline: defaultPipeline,
+                removeProtected: true
+            });
+
+            expect(apq.protectedPaths).toEqual([]);
         });
     });
 });
