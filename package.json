@@ -1,6 +1,6 @@
 {
   "name": "@r5v/mongoose-paginate",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -58,13 +58,16 @@
   "engines": {
     "node": ">=20"
   },
+  "peerDependencies": {
+    "mongoose": ">=8.0.0"
+  },
   "dependencies": {
-    "mongoose": "^8.16.1",
     "qs": "^6.14.0"
   },
   "description": "A lightweight Node.js package that seamlessly bridges RESTful API query parameters to Mongoose operations. Automatically parses and transforms URL query strings into valid Mongoose queries, supporting filtering, sorting, pagination, field selection, and population. Simply pass your Express req.query object and get back a fully configured Mongoose query ready for execution. Perfect for rapidly building consistent, feature-rich APIs without repetitive query parsing logic",
   "devDependencies": {
     "@types/express": "^5.0.3",
+    "mongoose": "^9.1.4",
     "@types/jest": "^30.0.0",
     "@types/node": "^24.0.10",
     "concurrently": "^9.2.0",

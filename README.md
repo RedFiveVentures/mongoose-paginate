@@ -6,6 +6,11 @@ Simple, Fast, Efficient
 
 This project was designed to accomodate more than 80% of your daily workflow to remove the overhead of boilerplate code in handling each endpoint and keeping queries and query params simple. We didn't want you to have to learn a new language to use this product
 
+## Requirements
+- Node.js >= 20
+- mongoose >= 8.0.0 (peer dependency)
+  - Tested with: 8.16.0, 9.1.4
+
 ## Basic Usage
 
 ### PagingQuery
@@ -306,6 +311,10 @@ $ yarn run start
 8. `$sort` (final sorting, can sort on computed fields)
 9. Apply pagination (`$skip`, `$limit`) and options
 
+
+### 1.0.17
+  - **Moved mongoose to peerDependencies** - Reduces bundle size for consumers who already have mongoose installed
+  - Supports mongoose >= 8.0.0 (tested with 8.16.0 and 9.1.4)
 
 ### 1.0.15
   - **Re-enabled `removeProtected` option** for `AggregationPagingQuery` (EXPERIMENTAL) - Automatically excludes fields marked with `select: false` in your schema (e.g., passwords, secret keys) from aggregation results. Use with caution and test thoroughly in your environment.
