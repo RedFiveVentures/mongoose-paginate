@@ -3,7 +3,7 @@ export const getPropertyFromDotNotation = (obj:any, path:string) => {
         return currentObject && currentObject[key];
     }, obj);
 }
-export const dotNotationToObject = (dotString, value:any = null)=> {
+export const dotNotationToObject = (dotString: string, value: unknown = null) => {
     const keys = dotString.split('.');
     const result = {};
 
@@ -52,7 +52,7 @@ export const  createObjectFromDotNotation = (dotNotationMap:{[key:string]:any})=
     return result;
 }
 
-export const setPropertyFromDotNotation = (obj, path, value) => {
+export const setPropertyFromDotNotation = (obj: Record<string, unknown>, path: string, value: unknown) => {
     if (!obj || typeof obj !== 'object') {
         throw new Error('Target object must be a valid object');
     }
@@ -72,7 +72,7 @@ export const setPropertyFromDotNotation = (obj, path, value) => {
         if (!current[key] || typeof current[key] !== 'object' || Array.isArray(current[key])) {
             current[key] = {};
         }
-        current = current[key];
+        current = current[key] as Record<string, unknown>;
     }
 
     // Set the final property
@@ -83,7 +83,7 @@ export const setPropertyFromDotNotation = (obj, path, value) => {
 };
 
 // Set multiple properties using dot notation map
-export const setPropertiesFromDotNotation = (obj, dotNotationMap) => {
+export const setPropertiesFromDotNotation = (obj: Record<string, unknown>, dotNotationMap: Record<string, unknown>) => {
     if (!obj || typeof obj !== 'object') {
         throw new Error('Target object must be a valid object');
     }
@@ -100,7 +100,7 @@ export const setPropertiesFromDotNotation = (obj, dotNotationMap) => {
 };
 
 
-export const setPropertyFromDotNotationImmutable = (obj, path, value) => {
+export const setPropertyFromDotNotationImmutable = (obj: Record<string, unknown>, path: string, value: unknown) => {
     if (!obj || typeof obj !== 'object') {
         throw new Error('Target object must be a valid object');
     }
@@ -110,7 +110,7 @@ export const setPropertyFromDotNotationImmutable = (obj, path, value) => {
     }
 
     const keys = path.split('.');
-    const result = JSON.parse(JSON.stringify(obj)); // Deep clone
+    const result = structuredClone(obj);
     let current = result;
 
     // Navigate to the parent of the target property
@@ -121,7 +121,7 @@ export const setPropertyFromDotNotationImmutable = (obj, path, value) => {
         if (!current[key] || typeof current[key] !== 'object' || Array.isArray(current[key])) {
             current[key] = {};
         }
-        current = current[key];
+        current = current[key] as Record<string, unknown>;
     }
 
     // Set the final property
@@ -132,7 +132,7 @@ export const setPropertyFromDotNotationImmutable = (obj, path, value) => {
 };
 
 // Set multiple properties using dot notation map (immutable version)
-export const setPropertiesFromDotNotationImmutable = (obj, dotNotationMap) => {
+export const setPropertiesFromDotNotationImmutable = (obj: Record<string, unknown>, dotNotationMap: Record<string, unknown>) => {
     if (!obj || typeof obj !== 'object') {
         throw new Error('Target object must be a valid object');
     }
@@ -141,7 +141,7 @@ export const setPropertiesFromDotNotationImmutable = (obj, dotNotationMap) => {
         throw new Error('Dot notation map must be a valid object');
     }
 
-    const result = JSON.parse(JSON.stringify(obj)); // Deep clone
+    const result = structuredClone(obj);
 
     for (const [path, value] of Object.entries(dotNotationMap)) {
         setPropertyFromDotNotation(result, path, value);

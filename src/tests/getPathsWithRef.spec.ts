@@ -1,30 +1,123 @@
-import {getPathsWithRef} from "../utils/getPathsWithRef";
+import { getPathsWithRef } from "../utils/getPathsWithRef";
 
-const data = [{"enumValues":[],"regExp":null,"path":"firstName","instance":"String","validators":[{"message":"Path `{PATH}` is required.","type":"required"}],"getters":[],"setters":[null],"_presplitPath":["firstName"],"options":{"required":true,"trim":true},"_index":null,"isRequired":true,"originalRequiredValue":true}
-    ,{"enumValues":[],"regExp":null,"path":"lastName","instance":"String","validators":[{"message":"Path `{PATH}` is required.","type":"required"}],"getters":[],"setters":[null],"_presplitPath":["lastName"],"options":{"required":true,"trim":true},"_index":null,"isRequired":true,"originalRequiredValue":true}
-    ,{"enumValues":[],"regExp":null,"path":"email","instance":"String","validators":[],"getters":[],"setters":[null,null],"_presplitPath":["email"],"options":{"unique":true,"lowercase":true,"trim":true},"_index":{"unique":true,"background":true}}
-    ,{"enumValues":[],"regExp":null,"path":"c.child.str","instance":"String","validators":[],"getters":[],"setters":[],"_presplitPath":["c","child","str"],"options":{"selected":false},"_index":null}
-    ,{"path":"c.child.grandchild","options":{"type":{"obj":{"test":{"select":false}},"paths":{"test":{"enumValues":[],"regExp":null,"path":"test","instance":"String","validators":[],"getters":[],"setters":[],"_presplitPath":["test"],"options":{"select":false},"_index":null,"selected":false},"_id":{"path":"_id","instance":"ObjectId","validators":[],"getters":[],"setters":[null],"_presplitPath":["_id"],"options":{"auto":true,"type":"ObjectId"},"_index":null}},"aliases":{},"subpaths":{},"virtuals":{"id":{"path":"id","getters":[null],"setters":[],"options":{}}},"singleNestedPaths":{},"nested":{},"inherits":{},"callQueue":[],"_indexes":[],"_searchIndexes":[],"methods":{},"methodOptions":{},"statics":{},"tree":{"test":{"select":false},"_id":{"auto":true,"type":"ObjectId"},"id":{"path":"id","getters":[null],"setters":[],"options":{}}},"query":{},"childSchemas":[],"plugins":[{"opts":{"deduplicate":true}},{"opts":{"deduplicate":true}},{"opts":{"deduplicate":true}},{"opts":{"deduplicate":true}},{"opts":{"deduplicate":true}}],"$id":1,"mapPaths":[],"encryptedFields":{},"s":{"hooks":{"_pres":{},"_posts":{}}},"_userProvidedOptions":{},"options":{"strict":true,"strictQuery":false,"bufferCommands":true,"capped":false,"versionKey":"__v","optimisticConcurrency":false,"minimize":true,"autoIndex":null,"discriminatorKey":"__t","shardKey":null,"read":null,"validateBeforeSave":true,"validateModifiedOnly":false,"_id":true,"id":true,"typeKey":"type"},"$globalPluginsApplied":true}}}
-    ,{"enumValues":[],"regExp":null,"path":"biography","instance":"String","validators":[{"message":"Path `{PATH}` (`{VALUE}`) is longer than the maximum allowed length (2000).","type":"maxlength","maxlength":2000}],"getters":[],"setters":[],"_presplitPath":["biography"],"options":{"select":false,"maxlength":2000},"_index":null,"selected":false}
-    ,{"path":"birthDate","instance":"Date","validators":[],"getters":[],"setters":[],"_presplitPath":["birthDate"],"options":{},"_index":null}
-    ,{"enumValues":[],"regExp":null,"path":"nationality","instance":"String","validators":[],"getters":[],"setters":[null],"_presplitPath":["nationality"],"options":{"trim":true},"_index":null}
-    ,{"enumValues":[],"regExp":null,"path":"website","instance":"String","validators":[],"getters":[],"setters":[null],"_presplitPath":["website"],"options":{"trim":true},"_index":null}
-    ,{"enumValues":[],"regExp":null,"path":"socialMedia.twitter","instance":"String","validators":[],"getters":[],"setters":[],"_presplitPath":["socialMedia","twitter"],"options":{},"_index":null}
-    ,{"enumValues":[],"regExp":null,"path":"socialMedia.instagram","instance":"String","validators":[],"getters":[],"setters":[],"_presplitPath":["socialMedia","instagram"],"options":{},"_index":null}
-    ,{"enumValues":[],"regExp":null,"path":"socialMedia.facebook","instance":"String","validators":[],"getters":[],"setters":[],"_presplitPath":["socialMedia","facebook"],"options":{},"_index":null}
-    ,{"schemaOptions":{"strict":true,"strictQuery":false,"bufferCommands":true,"capped":false,"versionKey":"__v","optimisticConcurrency":false,"minimize":true,"autoIndex":null,"discriminatorKey":"__t","shardKey":null,"read":null,"validateBeforeSave":true,"validateModifiedOnly":false,"_id":true,"id":true,"typeKey":"type","timestamps":true,"toJSON":{"virtuals":true},"toObject":{"virtuals":true},"pluralization":true},"caster":{"path":"books","instance":"ObjectId","validators":[],"getters":[],"setters":[],"_presplitPath":["books"],"options":{"ref":"Book"},"_index":null,"_arrayPath":"books.$","_arrayParentPath":"books"},"$embeddedSchemaType":{"path":"books","instance":"ObjectId","validators":[],"getters":[],"setters":[],"_presplitPath":["books"],"options":{"ref":"Book"},"_index":null,"_arrayPath":"books.$","_arrayParentPath":"books"},"$isMongooseArray":true,"path":"books","instance":"Array","validators":[],"getters":[],"setters":[],"_presplitPath":["books"],"options":{"type":[{"ref":"Book"}]},"_index":null}
-    ,{"path":"book","instance":"ObjectId","validators":[],"getters":[],"setters":[],"_presplitPath":["book"],"options":{"ref":"Book"},"_index":null}
-    ,{"path":"isActive","instance":"Boolean","validators":[],"getters":[],"setters":[],"_presplitPath":["isActive"],"options":{"default":true},"_index":null,"defaultValue":true}
-    ,{"path":"_id","instance":"ObjectId","validators":[],"getters":[],"setters":[null],"_presplitPath":["_id"],"options":{"auto":true,"type":"ObjectId"},"_index":null}
-    ,{"path":"createdAt","instance":"Date","validators":[],"getters":[],"setters":[null,null],"_presplitPath":["createdAt"],"options":{"immutable":true},"_index":null,"$immutable":true}
-    ,{"path":"updatedAt","instance":"Date","validators":[],"getters":[],"setters":[],"_presplitPath":["updatedAt"],"options":{},"_index":null}
-    ,{"path":"__v","instance":"Number","validators":[],"getters":[],"setters":[],"_presplitPath":["__v"],"options":{},"_index":null}
-]
-
+const sampleSchemaData = [
+    { "enumValues": [], "regExp": null, "path": "firstName", "instance": "String", "validators": [{ "message": "Path `{PATH}` is required.", "type": "required" }], "getters": [], "setters": [null], "_presplitPath": ["firstName"], "options": { "required": true, "trim": true }, "_index": null, "isRequired": true, "originalRequiredValue": true },
+    { "enumValues": [], "regExp": null, "path": "lastName", "instance": "String", "validators": [{ "message": "Path `{PATH}` is required.", "type": "required" }], "getters": [], "setters": [null], "_presplitPath": ["lastName"], "options": { "required": true, "trim": true }, "_index": null, "isRequired": true, "originalRequiredValue": true },
+    { "enumValues": [], "regExp": null, "path": "email", "instance": "String", "validators": [], "getters": [], "setters": [null, null], "_presplitPath": ["email"], "options": { "unique": true, "lowercase": true, "trim": true }, "_index": { "unique": true, "background": true } },
+    { "schemaOptions": { "strict": true }, "caster": { "path": "books", "instance": "ObjectId", "validators": [], "getters": [], "setters": [], "_presplitPath": ["books"], "options": { "ref": "Book" }, "_index": null, "_arrayPath": "books.$", "_arrayParentPath": "books" }, "$embeddedSchemaType": { "path": "books", "instance": "ObjectId", "validators": [], "getters": [], "setters": [], "_presplitPath": ["books"], "options": { "ref": "Book" }, "_index": null, "_arrayPath": "books.$", "_arrayParentPath": "books" }, "$isMongooseArray": true, "path": "books", "instance": "Array", "validators": [], "getters": [], "setters": [], "_presplitPath": ["books"], "options": { "type": [{ "ref": "Book" }] }, "_index": null },
+    { "path": "author", "instance": "ObjectId", "validators": [], "getters": [], "setters": [], "_presplitPath": ["author"], "options": { "ref": "Author" }, "_index": null },
+    { "path": "isActive", "instance": "Boolean", "validators": [], "getters": [], "setters": [], "_presplitPath": ["isActive"], "options": { "default": true }, "_index": null, "defaultValue": true },
+    { "path": "_id", "instance": "ObjectId", "validators": [], "getters": [], "setters": [null], "_presplitPath": ["_id"], "options": { "auto": true, "type": "ObjectId" }, "_index": null }
+];
 
 describe('getPathsWithRef', () => {
-    it('returns correct values', () => {
-        const results =  getPathsWithRef(data)
+    test('should return correct paths with ref from array data', () => {
+        const results = getPathsWithRef(sampleSchemaData);
 
-    })
-})
+        expect(Array.isArray(results)).toBe(true);
+        expect(results.length).toBeGreaterThan(0);
+
+        const paths = results.map(r => r.path);
+        expect(paths).toContain('books');
+        expect(paths).toContain('author');
+    });
+
+    test('should return path and options for each ref', () => {
+        const results = getPathsWithRef(sampleSchemaData);
+
+        results.forEach(result => {
+            expect(result).toHaveProperty('path');
+            expect(result).toHaveProperty('options');
+        });
+    });
+
+    test('should correctly identify ref in options', () => {
+        const results = getPathsWithRef(sampleSchemaData);
+
+        const authorRef = results.find(r => r.path === 'author');
+        expect(authorRef).toBeDefined();
+        expect(authorRef?.options.ref).toBe('Author');
+    });
+
+    test('should correctly identify ref in array type', () => {
+        const results = getPathsWithRef(sampleSchemaData);
+
+        const booksRef = results.find(r => r.path === 'books');
+        expect(booksRef).toBeDefined();
+        // For array types, the ref is in options.type[0].ref or caster.options.ref
+        expect(booksRef?.options.type?.[0]?.ref || booksRef?.options.ref).toBe('Book');
+    });
+
+    test('should not include paths without ref', () => {
+        const results = getPathsWithRef(sampleSchemaData);
+
+        const paths = results.map(r => r.path);
+        expect(paths).not.toContain('firstName');
+        expect(paths).not.toContain('lastName');
+        expect(paths).not.toContain('email');
+        expect(paths).not.toContain('isActive');
+        expect(paths).not.toContain('_id');
+    });
+
+    test('should handle empty array', () => {
+        const results = getPathsWithRef([]);
+
+        expect(Array.isArray(results)).toBe(true);
+        expect(results.length).toBe(0);
+    });
+
+    test('should handle array with no refs', () => {
+        const dataWithoutRefs = [
+            { "path": "name", "instance": "String", "options": { "required": true } },
+            { "path": "age", "instance": "Number", "options": {} }
+        ];
+
+        const results = getPathsWithRef(dataWithoutRefs);
+        expect(results.length).toBe(0);
+    });
+
+    test('should handle string input', () => {
+        const stringData = JSON.stringify({ "path": "user", "instance": "ObjectId", "options": { "ref": "User" } });
+        const results = getPathsWithRef(stringData);
+
+        expect(Array.isArray(results)).toBe(true);
+    });
+
+    test('should not have duplicate paths', () => {
+        const results = getPathsWithRef(sampleSchemaData);
+
+        const paths = results.map(r => r.path);
+        const uniquePaths = [...new Set(paths)];
+        expect(paths.length).toBe(uniquePaths.length);
+    });
+
+    test('should handle nested refs in options.type array', () => {
+        const nestedRefData = [
+            {
+                "path": "categories",
+                "instance": "Array",
+                "options": {
+                    "type": [{ "ref": "Category" }]
+                }
+            }
+        ];
+
+        const results = getPathsWithRef(nestedRefData);
+        expect(results.some(r => r.path === 'categories')).toBe(true);
+    });
+
+    test('should handle ref in options.type object', () => {
+        const typeObjectRefData = [
+            {
+                "path": "parent",
+                "instance": "ObjectId",
+                "options": {
+                    "type": { "ref": "Parent" }
+                }
+            }
+        ];
+
+        const results = getPathsWithRef(typeObjectRefData);
+        expect(results.some(r => r.path === 'parent')).toBe(true);
+    });
+});

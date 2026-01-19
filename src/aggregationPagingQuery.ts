@@ -6,8 +6,7 @@ import {
     AggregateOptions,
     PipelineStage
 } from "mongoose";
-import type {Request} from "express";
-import type {AggregateQueryOptions, QueryParameters, AggregateQueryParsedRequestParams} from './types'
+import type {AggregateQueryOptions, AggregateQueryParsedRequestParams, RequestLike} from './types'
 
 import {parseParams} from "./utils/parseParams";
 import {isJsonString} from "./utils/isJsonString";
@@ -23,7 +22,6 @@ export class AggregationPagingQuery  {
         $sort: {},
         $paging: true,
         $populate: [] as string[],
-        $includes: [] as string[], // to be removed
         $select: "",
         $count: [],
         $postFilter: {},
@@ -36,13 +34,22 @@ export class AggregationPagingQuery  {
         enablePreSort: true,
         pipeline: []
     }
-    query: Aggregate<Array<any>> | undefined
+    query: Aggregate<unknown[]> | undefined
     protectedPaths: string[] = []
     model: Model<any>
-    constructor(req: Request<{},any, any, Partial<QueryParameters>>, model: Model<any>, options: AggregateQueryOptions) {
+    constructor(req: RequestLike, model: Model<any>, options: AggregateQueryOptions) {
+        if (!req || typeof req.query !== 'object') {
+            throw new Error('Invalid request object: must have a query property')
+        }
+        if (!model || typeof model.aggregate !== 'function') {
+            throw new Error('Invalid model: must be a Mongoose model')
+        }
+        if (!options || !Array.isArray(options.pipeline)) {
+            throw new Error('Invalid options: pipeline must be an array')
+        }
         this.options = {...this.options, ...options}
         this.model = model
-        this.params = this.parseParams(this.params,req.query, true) as AggregateQueryParsedRequestParams
+        this.params = this.parseParams(this.params, req.query as import('qs').ParsedQs, true) as AggregateQueryParsedRequestParams
 
 
         this.initQuery()
@@ -85,7 +92,7 @@ export class AggregationPagingQuery  {
 
         const typeCastFilter = this.typeCastObject(filterObj)
         const typeCastPostFilter = this.typeCastObject(postFilterObj)
-        if(Object.keys(p1).some(k=>["$search","$searchMeta", "$geoNear" ].includes(k))) {
+        if(p1 && Object.keys(p1).some(k=>["$search","$searchMeta", "$geoNear" ].includes(k))) {
             this.query.append(p1)
             firstObj = true
         }
@@ -95,7 +102,7 @@ export class AggregationPagingQuery  {
         if (this.options.enablePreSort && Object.keys($preSort).length) {
             this.query.sort($preSort)
         }
-        if(!firstObj) {this.query.append(p1)}
+        if(!firstObj && p1) {this.query.append(p1)}
             pipes.forEach(item => this.query?.append(item))
 
         if ($select) {
@@ -112,51 +119,51 @@ export class AggregationPagingQuery  {
         }
         this.query.option({allowDiskUse: true, ...options as AggregateOptions})
     }
-    typeCastObject = (strOrObj: any): any => {
+    typeCastObject = <T>(strOrObj: T): T => {
 
         if( strOrObj instanceof Types.ObjectId ) {
             return strOrObj
         }
-        if (typeof strOrObj === "number" || !isNaN(strOrObj as any)) {
+        if (typeof strOrObj === "number" || !isNaN(strOrObj as number)) {
             return strOrObj
         }
 
         if (typeof strOrObj === "string" || strOrObj instanceof String) {
             const idObjectId = isObjectIdOrHexString(strOrObj)
             if (idObjectId) {
-                return new Types.ObjectId(strOrObj as string)
+                return new Types.ObjectId(strOrObj as string) as T
             }
 
             if (this.isValidDateString(strOrObj as string)) {
-                return new Date(strOrObj as string)
+                return new Date(strOrObj as string) as T
             }
 
             return strOrObj
         }
 
         if (Array.isArray(strOrObj)) {
-            return strOrObj.map((item) => this.typeCastObject(item))
+            return strOrObj.map((item) => this.typeCastObject(item)) as T
         }
 
-        const keys = Object.keys(strOrObj)
+        const keys = Object.keys(strOrObj as object)
 
-        const o = {} as any
+        const o = {} as Record<string, unknown>
 
         keys.forEach((k) => {
-            o[k] = this.typeCastObject(strOrObj[k])
+            o[k] = this.typeCastObject((strOrObj as Record<string, unknown>)[k])
         })
 
-        return o
+        return o as T
     }
 
     private removeProtectedFields = () => {
-        const projections = this.protectedPaths.reduce((acc: any, curr: string) => {
+        const projections = this.protectedPaths.reduce((acc: Record<string, number>, curr: string) => {
             acc[curr] = 0
             return acc
-        }, {} as any);
+        }, {} as Record<string, number>);
 
         if(Object.keys(projections).length > 0) {
-            (this.query as Aggregate<any>).project(projections)
+            (this.query as Aggregate<unknown[]>).project(projections)
         }
     }
     exec = async () => {
@@ -170,7 +177,7 @@ export class AggregationPagingQuery  {
             return await this.query.exec()
         }
 
-        const query = this.query as Aggregate<any>
+        const query = this.query as Aggregate<unknown[]>
 
         query.facet({
             items: [{ $skip: $skip },{ $limit: $limit }],

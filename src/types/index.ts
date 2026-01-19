@@ -2,6 +2,15 @@
 import mongoose, {QueryOptions, SortOrder, AggregateOptions} from "mongoose";
 import {ParsedQs} from "qs";
 
+/**
+ * Minimal request interface that only requires a query property.
+ * This allows consumers to use custom Express request types without
+ * running into index signature compatibility issues.
+ */
+export interface RequestLike {
+    query: ParsedQs | Record<string, unknown>;
+}
+
 export interface QueryParameters extends ParsedQs {
     $filter: string;
     $limit: string;
@@ -9,7 +18,6 @@ export interface QueryParameters extends ParsedQs {
     $sort: string;
     $paging: "yes" | "no" | "0" | "false"
     $populate: string;
-    $includes: string;
     $select: string;
     $count: string;
 }
@@ -20,7 +28,6 @@ export interface StandardParsedRequestParams {
     $skip: number
     $paging?: boolean
     $populate?: string[]
-    $includes?: string[] //deprecated
     $select?: string
 }
 

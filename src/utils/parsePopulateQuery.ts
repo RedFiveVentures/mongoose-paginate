@@ -2,7 +2,7 @@ export const parsePopulateArray = (populateArr: string[], selectArr: string[]) =
 
     return populateArr.reduce((acc, curr)=>{
         const matched = selectArr.filter(item=> {
-            const rgx = new RegExp(`^${curr}($|\.?)`, "g");
+            const rgx = new RegExp(`^${curr}($|\.?)`);
             return rgx.test(item)
         })
         const pop = {path:curr}

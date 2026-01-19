@@ -27,7 +27,7 @@ export const parseSortString = (sortString: string) => {
         .filter((v) => v !== null)
 }
 
-export const parseAggregateSortString = (sortString):{[key:string]:SortOrder}=>{
+export const parseAggregateSortString = (sortString: string): {[key:string]: SortOrder} => {
     const sortObj = parseSortString(sortString)
     return sortObj.reduce((a, c) => {
         const [k, v] = c
