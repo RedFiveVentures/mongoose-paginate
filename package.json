@@ -27,7 +27,7 @@
   "scripts": {
     "prebuild": "rimraf dist/",
     "build": "tsc",
-    "copy-files": "copyfiles --error package.json dist/",
+    "postbuild": "copyfiles --error package.json README.md dist/",
     "test": "concurrently --kill-others-on-fail --prefix none npm:test:*",
     "test:unit": "jest"
   },
