@@ -312,6 +312,48 @@ $ yarn run start
 9. Apply pagination (`$skip`, `$limit`) and options
 
 
+## Versioning and releasing
+
+The package follows [semver](https://semver.org). The version in `package.json` is the only version; it is bumped in its own commit (`chore: bump version to X.Y.Z`) and every release gets an entry in the changelog below.
+
+**What each part means**
+
+| Bump | When | Examples |
+|:--|:--|:--|
+| patch `1.0.x` | Bug fixes, docs, and type fixes that do not narrow what consumers can already write | `exec()` returns `Promise<any>` again; a regex bug in populate parsing |
+| minor `1.x.0` | New options, parameters, exports or utilities; anything additive | a new `allowedOperators` option |
+| major `x.0.0` | Anything that can break a consumer's build **or** behaviour | removing a parameter (`$includes`), changing a default, raising the minimum `mongoose` or Node version, **narrowing a public type** (`any` to `unknown`, a stricter argument type) |
+
+Types are part of the public API. A change that makes a consumer's TypeScript stop compiling is a breaking change even if the runtime is identical. Consumers pin `^1.0.x`, so a breaking change shipped as a patch reaches them on the next install.
+
+**Release steps** (from a clean `main`, after the PR is merged)
+
+```text
+$ git checkout main && git pull
+$ npm version patch --no-git-tag-version      # or: minor / major
+$ git commit -am "chore: bump version to X.Y.Z"
+$ git push
+$ npm install
+$ npm test                                    # must be green
+$ npm run build                               # prebuild clears dist/, postbuild copies package.json + README into it
+$ npm pack --dry-run                          # check the file list: package.json, README.md, dist/**
+$ npm login                                   # once per machine; opens the browser
+$ npm publish --access public                 # add --otp=123456 if npm asks for a code
+$ npm view @r5v/mongoose-paginate version     # confirm X.Y.Z is live
+```
+
+Notes:
+- Publish only after `npm run build`. There is no `prepublishOnly` script, and `dist/` is what consumers get (`files` in `package.json`).
+- Update the changelog in the same PR as the change, under the version it will ship as.
+- Before a release that touches types or parsing, run the consuming app (`theshopkeeper`) against the built `dist/`: copy it over `node_modules/@r5v/mongoose-paginate/dist`, then run its `tsc` and tests. The 1.0.14 narrowing of `exec()` to `unknown` was only caught this way.
+- A published version cannot be changed or re-used. If a release is wrong, publish a fixed patch and `npm deprecate @r5v/mongoose-paginate@X.Y.Z "use X.Y.Z+1"`.
+- Optional: `git tag vX.Y.Z && git push --tags` after publishing. There are no tags in the repository yet.
+
+## Changelog
+
+### 1.0.18
+  - **Fixed `exec()` return type** - `PagingQuery.exec()` and `AggregationPagingQuery.exec()` return `Promise<any>` again. 1.0.14 through 1.0.17 narrowed it to `Promise<unknown>`, which stopped consumers that use the result (for example `res.send(await query.exec())` typed against a response body) from compiling. Runtime behaviour is unchanged.
+
 ### 1.0.17
   - **Moved mongoose to peerDependencies** - Reduces bundle size for consumers who already have mongoose installed
   - Supports mongoose >= 8.0.0 (tested with 8.16.0 and 9.1.4)
