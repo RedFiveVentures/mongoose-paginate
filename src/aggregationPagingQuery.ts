@@ -174,7 +174,8 @@ export class AggregationPagingQuery  {
             (this.query as Aggregate<unknown[]>).project(projections)
         }
     }
-    exec = async () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    exec = async (): Promise<any> => {
         const { $skip, $limit, $paging, $filter } = this.params
         const { disablePaging } = this.options
         if(!this.query) {throw new Error("No Query Present in AggregationQuery")}
