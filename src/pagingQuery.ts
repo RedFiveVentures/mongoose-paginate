@@ -76,7 +76,8 @@ export class PagingQuery {
     }
     parseSortString = parseSortString
     parseParams = parseParams
-    exec = async () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    exec = async (): Promise<any> => {
         const {$skip, $limit, $paging, $filter} = this.params
         const {staticFilter} = this.options
         if (!$paging) {
